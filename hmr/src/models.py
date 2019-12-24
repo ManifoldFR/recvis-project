@@ -15,7 +15,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+import tensorflow.contrib
 import tensorflow.contrib.slim as slim
 
 from tensorflow.contrib.layers.python.layers.initializers import variance_scaling_initializer
@@ -37,7 +38,7 @@ def Encoder_resnet(x, is_training=True, weight_decay=0.001, reuse=False):
     - variables: tf variables
     """
     from tensorflow.contrib.slim.python.slim.nets import resnet_v2
-    with tf.name_scope("Encoder_resnet", [x]):
+    with tf.name_scope("Encoder_resnet", values=[x]):
         with slim.arg_scope(
                 resnet_v2.resnet_arg_scope(weight_decay=weight_decay)):
             net, end_points = resnet_v2.resnet_v2_50(
@@ -47,7 +48,7 @@ def Encoder_resnet(x, is_training=True, weight_decay=0.001, reuse=False):
                 reuse=reuse,
                 scope='resnet_v2_50')
             net = tf.squeeze(net, axis=[1, 2])
-    variables = tf.contrib.framework.get_variables('resnet_v2_50')
+    variables = tensorflow.contrib.framework.get_variables('resnet_v2_50')
     return net, variables
 
 
@@ -87,7 +88,7 @@ def Encoder_fc3_dropout(x,
             weights_initializer=small_xavier,
             scope='fc3')
 
-    variables = tf.contrib.framework.get_variables(scope)
+    variables = tensorflow.contrib.framework.get_variables(scope)
     return net, variables
 
 
@@ -135,7 +136,7 @@ def Discriminator_separable_rotations(
     - variables: tf variables
     """
     data_format = "NHWC"
-    with tf.name_scope("Discriminator_sep_rotations", [poses, shapes]):
+    with tf.name_scope("Discriminator_sep_rotations", values=[poses, shapes]):
         with tf.variable_scope("D") as scope:
             with slim.arg_scope(
                 [slim.conv2d, slim.fully_connected],
@@ -175,5 +176,5 @@ def Discriminator_separable_rotations(
                     out = tf.concat([theta_out_all,
                                      poses_all_out, shape_out], 1)
 
-            variables = tf.contrib.framework.get_variables(scope)
+            variables = tensorflow.contrib.framework.get_variables(scope)
             return out, variables

@@ -238,7 +238,7 @@ class DataLoader(object):
             return pose_batch, shape_batch
 
     def read_data(self, filename_queue, has_3d=False):
-        with tf.name_scope(None, 'read_data', [filename_queue]):
+        with tf.name_scope(None, 'read_data', values=[filename_queue]):
             reader = tf.TFRecordReader()
             _, example_serialized = reader.read(filename_queue)
             if has_3d:
@@ -280,7 +280,7 @@ class DataLoader(object):
                             gt3d=None):
         margin = tf.to_int32(self.output_size / 2)
         with tf.name_scope(None, 'image_preprocessing',
-                           [image, image_size, label, center]):
+                           values=[image, image_size, label, center]):
             visibility = label[2, :]
             keypoints = label[:2, :]
 

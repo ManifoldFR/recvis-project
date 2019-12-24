@@ -18,6 +18,12 @@ import json
 
 import numpy as np
 
+import tensorflow as tf
+
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+tf.keras.backend.set_session(tf.Session(config=config))
+
 curr_path = osp.dirname(osp.abspath(__file__))
 model_dir = osp.join(curr_path, '..', 'models')
 if not osp.exists(model_dir):

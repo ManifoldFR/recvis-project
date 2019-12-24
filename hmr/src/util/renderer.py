@@ -219,7 +219,7 @@ def render_model(verts,
     if color_id is None:
         color = colors['light_blue']
     else:
-        color_list = colors.values()
+        color_list = list(colors.values())
         color = color_list[color_id % len(color_list)]
 
     imtmp = simple_renderer(rn, verts, faces, color=color)
@@ -387,20 +387,20 @@ def draw_skeleton(input_image, joints, draw_edges=True, vis=None, radius=None):
         import ipdb
         ipdb.set_trace()
 
-    for child in xrange(len(parents)):
+    for child in range(len(parents)):
         point = joints[:, child]
         # If invisible skip
         if vis is not None and vis[child] == 0:
             continue
         if draw_edges:
-            cv2.circle(image, (point[0], point[1]), radius, colors['white'],
+            cv2.circle(image, (point[0], point[1]), radius, colors['white'].tolist(),
                        -1)
             cv2.circle(image, (point[0], point[1]), radius - 1,
-                       colors[jcolors[child]], -1)
+                       colors[jcolors[child]].tolist(), -1)
         else:
             # cv2.circle(image, (point[0], point[1]), 5, colors['white'], 1)
             cv2.circle(image, (point[0], point[1]), radius - 1,
-                       colors[jcolors[child]], 1)
+                       colors[jcolors[child]].tolist(), 1)
             # cv2.circle(image, (point[0], point[1]), 5, colors['gray'], -1)
         pa_id = parents[child]
         if draw_edges and pa_id >= 0:
@@ -408,13 +408,13 @@ def draw_skeleton(input_image, joints, draw_edges=True, vis=None, radius=None):
                 continue
             point_pa = joints[:, pa_id]
             cv2.circle(image, (point_pa[0], point_pa[1]), radius - 1,
-                       colors[jcolors[pa_id]], -1)
+                       colors[jcolors[pa_id]].tolist(), -1)
             if child not in ecolors.keys():
                 print('bad')
                 import ipdb
                 ipdb.set_trace()
             cv2.line(image, (point[0], point[1]), (point_pa[0], point_pa[1]),
-                     colors[ecolors[child]], radius - 2)
+                     colors[ecolors[child]].tolist(), radius - 2)
 
     # Convert back in original dtype
     if input_is_float:

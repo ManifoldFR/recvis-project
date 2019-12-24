@@ -102,7 +102,7 @@ class SMPL(object):
           - Verts: N x 6980 x 3
         """
 
-        with tf.name_scope(name, "smpl_main", [beta, theta]):
+        with tf.name_scope(name, "smpl_main", values=[beta, theta]):
             num_batch = beta.shape[0].value
 
             # 1. Add shape blend shapes
