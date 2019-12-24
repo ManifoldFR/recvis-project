@@ -1,5 +1,15 @@
 # Recvis project
 
+Clone with the submodules (one line)
+ ```bash
+git clone --recurse-submodules https://github.com/ManifoldFR/recvis-project
+ ```
+Or multiple lines
+```bash
+git clone https://github.com/ManifoldFR/recvis-project
+cd hmr
+git submodule update --init
+```
 
 
 ## Bibliography
