@@ -1,0 +1,3 @@
+[submodule "hmr"]
+	path = hmr
+	url = git@github.com:akanazawa/hmr.git
