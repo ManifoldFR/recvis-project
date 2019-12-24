@@ -6,7 +6,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 
 def keypoint_l1_loss(kp_gt, kp_pred, scale=1., name=None):
@@ -16,7 +17,7 @@ def keypoint_l1_loss(kp_gt, kp_pred, scale=1., name=None):
       kp_gt  : N x K x 3
       kp_pred: N x K x 2
     """
-    with tf.name_scope(name, "keypoint_l1_loss", [kp_gt, kp_pred]):
+    with tf.name_scope(name, "keypoint_l1_loss", values=[kp_gt, kp_pred]):
         kp_gt = tf.reshape(kp_gt, (-1, 3))
         kp_pred = tf.reshape(kp_pred, (-1, 2))
 
@@ -40,7 +41,7 @@ def compute_3d_loss(params_pred, params_gt, has_gt3d):
       # has_gt3d: (N,) bool
       has_gt3d: N x 1 tf.float32 of {0., 1.}
     """
-    with tf.name_scope("3d_loss", [params_pred, params_gt, has_gt3d]):
+    with tf.name_scope("3d_loss", values=[params_pred, params_gt, has_gt3d]):
         weights = tf.expand_dims(tf.cast(has_gt3d, tf.float32), 1)
         res = tf.losses.mean_squared_error(
             params_gt, params_pred, weights=weights) * 0.5
@@ -53,7 +54,7 @@ def align_by_pelvis(joints):
     Then hips are: [3, 2]
     Takes mid point of these points, then subtracts it.
     """
-    with tf.name_scope("align_by_pelvis", [joints]):
+    with tf.name_scope("align_by_pelvis", values=[joints]):
         left_id = 3
         right_id = 2
         pelvis = (joints[:, left_id, :] + joints[:, right_id, :]) / 2.
