@@ -1,15 +1,13 @@
 # Recvis project
 
-Clone with the submodules (one line)
+Clone the repository
  ```bash
-git clone --recurse-submodules https://github.com/ManifoldFR/recvis-project
- ```
-Or multiple lines
-```bash
 git clone https://github.com/ManifoldFR/recvis-project
-cd hmr
-git submodule update --init
-```
+ ```
+
+## Dependencies
+
+We patched HMR to be able to use more recent versions of Python and TensorFlow 1.x (tested on TensorFlow 1.15 and Python 3.7).
 
 
 ## Bibliography
