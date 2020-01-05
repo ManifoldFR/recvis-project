@@ -1,0 +1,13 @@
+# python requirements
+pip>=9.0
+scipy
+numpy
+opendr==0.77
+matplotlib
+scikit-image
+deepdish>=0.3
+#opencv-python
+py-opencv>=4.0.0
+absl-py
+ipdb
+tensorflow-gpu>=1.12  # repo was patched accordingly
