@@ -55,3 +55,7 @@ Par défaut, le runtime ne regarde pas dans `/usr/local/lib` où Bullet est inst
 export LD_LIBRARY_PATH=/usr/local/lib
 ```
 Éventuellement on peut aussi ajouter `-Wl,-rpath=/usr/local/lib` dans les flags passés au compilateur (variable CFLAGS dans le Makefile).
+
+## Autres écueils
+
+**Si le 1er exemple crashe quand on balance des boîtes** Suivre les instrutions du gars et modifier le code: https://github.com/xbpeng/DeepMimic/issues/58#issuecomment-502038564
