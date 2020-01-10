@@ -1,5 +1,6 @@
 """
 Renders mesh using OpenDr for visualization.
++ 2D drawing functions.
 """
 
 from __future__ import absolute_import
@@ -14,7 +15,7 @@ from opendr.renderer import ColoredRenderer
 from opendr.lighting import LambertianPointLight
 
 colors = {
-    # colorbline/print/copy safe:
+    # colorblind/print/copy safe:
     'light_blue': [0.65098039, 0.74117647, 0.85882353],
     'light_pink': [.9, .7, .7],  # This is used to do no-3d
 }
@@ -236,8 +237,9 @@ def render_model(verts,
 # ------------------------------
 
 
-def get_original(proc_param, verts, cam, joints, img_size):
-    img_size = proc_param['img_size']
+def get_original(proc_param, verts, cam, joints):
+    # img_size is the size it was cropped to.
+    img_size = proc_param['target_size']
     undo_scale = 1. / np.array(proc_param['scale'])
 
     cam_s = cam[0]
@@ -248,19 +250,80 @@ def get_original(proc_param, verts, cam, joints, img_size):
     trans = np.hstack([cam_pos, tz])
     vert_shifted = verts + trans
 
-    start_pt = proc_param['start_pt'] - 0.5 * img_size
+    start_pt = proc_param['start_pt']# - 0.5 * img_size
     final_principal_pt = (principal_pt + start_pt) * undo_scale
     cam_for_render = np.hstack(
         [np.mean(flength * undo_scale), final_principal_pt])
 
+    joints = ((joints + 1) * 0.5) * img_size    
     # This is in padded image.
-    # kp_original = (joints + proc_param['start_pt']) * undo_scale
+    kp_original = (joints + proc_param['start_pt']) * undo_scale
     # Subtract padding from joints.
-    margin = int(img_size / 2)
-    kp_original = (joints + proc_param['start_pt'] - margin) * undo_scale
+    # margin = int(img_size / 2)
+    # kp_original = (joints + proc_param['start_pt'] - margin) * undo_scale
 
     return cam_for_render, vert_shifted, kp_original
 
+
+def render_original(frame,
+                    skel_frame,
+                    proc_param,
+                    result,
+                    other_vp,
+                    other_vp2,
+                    bbox,
+                    renderer,
+                    ppl_id=0):
+    """
+    Render the result in the original coordinate frame
+    ppl_id is optional for color.
+    """
+    verts = result['verts']
+    joints = result['joints']
+    cam = result['cams']
+    img_size = frame.shape[:2]
+    cam_for_render, vert_shifted, kp_original = get_original(
+        proc_param, verts, cam, joints)
+
+    # Draw 2D projection.
+    radius = (np.mean(frame.shape[:2]) * 0.01).astype(int)
+    draw_bbox(skel_frame, bbox[-4:])
+    skel_img_orig = draw_skeleton(skel_frame, kp_original, radius=radius)
+    # Rendered image.
+    rend_img_orig = renderer(
+        vert_shifted, cam=cam_for_render, img=frame, color_id=ppl_id)
+    # Another viewpoint!
+    another_vp = renderer.rotated(
+        vert_shifted,
+        60,
+        cam=cam_for_render,
+        color_id=ppl_id,
+        img=other_vp,
+        axis='y')
+    another_vp2 = renderer.rotated(
+        vert_shifted,
+        -60,
+        cam=cam_for_render,
+        color_id=ppl_id,
+        img=other_vp2,
+        axis='x')
+
+    # import matplotlib.pyplot as plt
+    # plt.ion()
+    # plt.clf()
+    # plt.imshow(skel_img_orig)
+    # plt.imshow(rend_img_orig)
+    # plt.draw()
+    # row1 = np.hstack((skel_img_orig, rend_img_orig))
+    # row2 = np.hstack((another_vp, another_vp2))[:, :, :3]
+    # plt.imshow(np.vstack((row1, row2)).astype(np.uint8))
+
+    return rend_img_orig, skel_img_orig, another_vp, another_vp2
+
+
+# --------------------
+# 2D draw functions
+# --------------------
 
 def draw_skeleton(input_image, joints, draw_edges=True, vis=None, radius=None):
     """
@@ -393,14 +456,14 @@ def draw_skeleton(input_image, joints, draw_edges=True, vis=None, radius=None):
         if vis is not None and vis[child] == 0:
             continue
         if draw_edges:
-            cv2.circle(image, (point[0], point[1]), radius, colors['white'].tolist(),
+            cv2.circle(image, (point[0], point[1]), radius, tuple([int(colors['white'][x]) for x in range(3)]),
                        -1)
             cv2.circle(image, (point[0], point[1]), radius - 1,
-                       colors[jcolors[child]].tolist(), -1)
+                       tuple([int(colors[jcolors[child]][x]) for x in range(3)]), -1)
         else:
             # cv2.circle(image, (point[0], point[1]), 5, colors['white'], 1)
             cv2.circle(image, (point[0], point[1]), radius - 1,
-                       colors[jcolors[child]].tolist(), 1)
+                       tuple([int(colors[jcolors[child]][x]) for x in range(3)]), 1)
             # cv2.circle(image, (point[0], point[1]), 5, colors['gray'], -1)
         pa_id = parents[child]
         if draw_edges and pa_id >= 0:
@@ -408,13 +471,13 @@ def draw_skeleton(input_image, joints, draw_edges=True, vis=None, radius=None):
                 continue
             point_pa = joints[:, pa_id]
             cv2.circle(image, (point_pa[0], point_pa[1]), radius - 1,
-                       colors[jcolors[pa_id]].tolist(), -1)
+                       tuple([int(colors[jcolors[pa_id]][x]) for x in range(3)]), -1)
             if child not in ecolors.keys():
                 print('bad')
                 import ipdb
                 ipdb.set_trace()
             cv2.line(image, (point[0], point[1]), (point_pa[0], point_pa[1]),
-                     colors[ecolors[child]].tolist(), radius - 2)
+                     tuple([int(colors[ecolors[child]][x]) for x in range(3)]), radius - 2)
 
     # Convert back in original dtype
     if input_is_float:
@@ -426,28 +489,107 @@ def draw_skeleton(input_image, joints, draw_edges=True, vis=None, radius=None):
     return image
 
 
-def draw_text(input_image, content):
+def draw_openpose_skeleton(input_image, joints, draw_edges=True, vis=None, radius=None, threshold=0.1):
     """
-    content is a dict. draws key: val on image
-    Assumes key is str, val is float
+    Openpose:
+    joints is 3 x 18. but if not will transpose it.
+    0: Nose
+    1: Neck
+    2: R Should
+    3: R Elbow
+    4: R Wrist
+    5: L Should
+    6: L Elbow
+    7: L Wrist
+    8: R Hip
+    9: R Knee
+    10: R Ankle
+    11: L Hip
+    12: L Knee
+    13: L Ankle
+    14: R Eye
+    15: L Eye
+    16: R Ear
+    17: L Ear
+
+    [18: Head (always 0)]
+    This function converts the order into my lsp-coco skeleton (19 points) and uses that draw function.    
     """
-    import numpy as np
-    import cv2
-    image = input_image.copy()
-    input_is_float = False
-    if np.issubdtype(image.dtype, np.float):
-        input_is_float = True
-        image = (image * 255).astype(np.uint8)
+    if joints.shape[0] != 2:
+        joints = joints.T
+    # Append a dummy 0 joint for the head.
+    joints = np.hstack((joints, np.zeros((3,1))))
+    # # Figure out the order:
+    # for i in range(joints.shape[1]):
+    #     import matplotlib.pyplot as plt
+    #     plt.ion()
+    #     plt.clf()
+    #     fig = plt.figure(1)
+    #     plt.imshow(input_image)
+    #     plt.scatter(joints[0, :], joints[1, :])
+    #     plt.scatter(joints[0, i], joints[1, i])
+    #     plt.title('%dth' % i)
+    #     import ipdb; ipdb.set_trace()
 
-    black = np.array([0, 0, 0])
-    margin = 15
-    start_x = 5
-    start_y = margin
-    for key in sorted(content.keys()):
-        text = "%s: %.2g" % (key, content[key])
-        cv2.putText(image, text, (start_x, start_y), 0, 0.45, black)
-        start_y += margin
+    # This is what we want.
+    joint_names = ['R Ankle',
+                   'R Knee',
+                   'R Hip',
+                   'L Hip',
+                   'L Knee',
+                   'L Ankle',
+                   'R Wrist',
+                   'R Elbow',
+                   'R Shoulder',
+                   'L Shoulder',
+                   'L Elbow',
+                   'L Wrist',
+                   'Neck',
+                   'Head',
+                   'Nose', 'L Eye', 'R Eye', 'L Ear', 'R Ear']
+    # Order of open pose
+    op_names = [
+        'Nose',
+        'Neck',
+        'R Shoulder',
+        'R Elbow',
+        'R Wrist',
+        'L Shoulder',
+        'L Elbow',
+        'L Wrist',
+        'R Hip',
+        'R Knee',
+        'R Ankle',
+        'L Hip',
+        'L Knee',
+        'L Ankle',
+        'R Eye',
+        'L Eye',
+        'R Ear',
+        'L Ear',
+        'Head',
+    ]
 
-    if input_is_float:
-        image = image.astype(np.float32) / 255.
+    permute_order = np.array([op_names.index(name) for name in joint_names])
+
+    ordered_joints = joints[:, permute_order]
+
+    vis = ordered_joints[2, :] > threshold
+
+    # ordered_joints = np.vstack((ordered_joints[:2, :], vis))
+
+    image = draw_skeleton(input_image, ordered_joints[:2, :], draw_edges, vis, radius)
+    # import matplotlib.pyplot as plt
+    # plt.ion()
+    # plt.clf()
+    # plt.imshow(image)
+    # plt.draw()
+
     return image
+
+
+def draw_bbox(frame, bbox):
+    # bbox is [x, y, h, w]
+    x, y = (bbox[:2]).astype(np.int)
+    width, height = (bbox[2:]).astype(np.int)
+    cv2.rectangle(frame, (x, y), (x + width, y + height), (158, 202, 225), 2)

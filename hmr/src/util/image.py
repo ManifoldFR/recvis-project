@@ -38,3 +38,9 @@ def scale_and_crop(image, scale, center, img_size):
     }
 
     return crop, proc_param
+
+def unprocess_image(im, v1=False):
+    """
+    Undo normalization done to images for training.
+    """
+    return (im + 1) * 0.5

@@ -51,6 +51,8 @@ flags.DEFINE_integer('img_size', 224,
                      'Input image size to the network after preprocessing')
 flags.DEFINE_string('data_format', 'NHWC', 'Data format')
 flags.DEFINE_integer('num_stage', 3, '# of times to iterate regressor')
+flags.DEFINE_boolean('ief', True, 'always true.')
+
 flags.DEFINE_string('model_type', 'resnet_fc3_dropout',
                     'Specifies which network to use')
 flags.DEFINE_string(
@@ -97,6 +99,19 @@ flags.DEFINE_float('e_3d_weight', 1, 'weight on E_3d')
 flags.DEFINE_integer('trans_max', 20, 'Value to jitter translation')
 flags.DEFINE_float('scale_max', 1.23, 'Max value of scale jitter')
 flags.DEFINE_float('scale_min', 0.8, 'Min value of scale jitter')
+
+flags.DEFINE_boolean('viz', False, 'visualize refinement')
+
+# Weights for refinment:
+flags.DEFINE_float('shape_loss_weight', .5, 'weight on shape variance')
+flags.DEFINE_float('joint_smooth_weight', 25, 'weight on joint smoothness')
+flags.DEFINE_float('camera_smooth_weight', 1., 'weight on camera smoothness')
+flags.DEFINE_float('init_pose_loss_weight', 100., 'weight on how much to stick to initial pose')
+
+# Other settings:
+flags.DEFINE_integer('num_refine', 10, 'number of iterations to optimize.')
+flags.DEFINE_boolean('use_weighted_init_pose', True, 'weights init_pose_loss according to initial closeness with openpose.. ')
+flags.DEFINE_boolean('refine_inpose', False, 'if true optimizes wrt the pose space as opposed to the latent feature space. ')
 
 
 def get_config():

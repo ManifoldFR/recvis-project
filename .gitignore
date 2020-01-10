@@ -2,3 +2,8 @@
 **/*/__pycache__
 *.tar.gz
 *.pyc
+*.json
+*.jpg
+*.png
+*.h5
+*.mp4

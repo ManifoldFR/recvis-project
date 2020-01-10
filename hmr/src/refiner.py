@@ -379,7 +379,7 @@ class Refiner(object):
         tbegin = time.time()
         num_iter = self.config.num_refine
         loss_records = {}
-        for step in xrange(num_iter):
+        for step in range(num_iter):
             result = self.sess.run(fetch_dict, feed_dict)
             loss_keys = [key for key in all_loss_keys if key in result.keys()]
             total_loss = result['total_loss']
