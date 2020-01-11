@@ -16,6 +16,12 @@ We reverse-engineered [motion-reconstruction](https://github.com/akanazawa/motio
 
 The patched versions of the repos are included in this repository.
 
+
+DeepMimic requires a specific format for motion capture files. They can be obtained from BVH (BioVision Hierarchy Animation) files. Converting from BVH to DeepMimic requires the [BvhToDeepMimic](https://github.com/BartMoyaers/BvhToDeepMimic) package
+```bash
+pip install bvhtodeepmimic
+```
+
 ## Use
 
 Put the videos in a directory (by default `data/vid`) and call
@@ -26,6 +32,10 @@ Then run
 ```bash
 python -m refine_hmr
 ```
+
+### Conversion of motion to DeepMimic JSON format
+
+Use https://github.com/BartMoyaers/BvhToDeepMimic to convert the BVH files to DeepMimic-formatted files.
 
 ## Bibliography
 
