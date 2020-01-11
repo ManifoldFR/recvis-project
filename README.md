@@ -29,3 +29,4 @@ python -m refine_hmr.py
 * DeepMimic: Example-Guided Deep Reinforcement Learning of Physics-Based Character Skills: https://xbpeng.github.io/projects/DeepMimic/index.html
 * Estimating 3D Motion and Forces of Person-Object Interactionsfrom Monocular Video. https://arxiv.org/pdf/1904.02683.pdf | [Project page](https://www.di.ens.fr/willow/research/motionforcesfromvideo/research/li19mfv/)
 * End-to-end Recovery of Human Shape and Pose: https://arxiv.org/pdf/1712.06584.pdf | [GitHub repo](https://github.com/akanazawa/hmr)
+* RMPE: Regional Multi-person Pose Estimation: https://arxiv.org/abs/1612.00137.pdf | [Project page](https://www.mvig.org/research/alphapose.html)
