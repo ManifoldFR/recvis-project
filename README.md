@@ -1,5 +1,7 @@
 # Project: _Humanoid Robot Imitation of Human Motion from Instructional Videos_
 
+Project for the MVA "Object Recognition and Computer Vision" class (https://www.di.ens.fr/willow/teaching/recvis19/).
+
 Clone the repository
  ```bash
 git clone https://github.com/ManifoldFR/recvis-project
@@ -8,9 +10,11 @@ git clone https://github.com/ManifoldFR/recvis-project
 
 ## Dependencies
 
-The initial HMR repository uses Python 2.7 and TensorFlow 1.3. We patched HMR to be able to use more recent versions of Python and TensorFlow 1.x (tested on TensorFlow 1.15 and Python 3.7).
+The initial [HMR repository](https://github.com/akanazawa/hmr) uses Python 2.7 and TensorFlow 1.3. We patched HMR to be able to use more recent versions of Python and TensorFlow 1.x (tested on TensorFlow 1.15 and Python 3.7).
 
-We reverse-engineered [motion-reconstruction](https://github.com/akanazawa/motion_reconstruction) to use with AlphaPose (included in the repository) and Python 3 instead of Openpose.
+We reverse-engineered [motion-reconstruction](https://github.com/akanazawa/motion_reconstruction) to use with [AlphaPose](https://github.com/MVIG-SJTU/AlphaPose/tree/pytorch) (included in the repository) and Python 3 instead of Openpose.
+
+The patched versions of the repos are included in this repository.
 
 ## Use
 
@@ -20,7 +24,7 @@ python -m run_alphapose
 ```
 Then run
 ```bash
-python -m refine_hmr.py
+python -m refine_hmr
 ```
 
 ## Bibliography
