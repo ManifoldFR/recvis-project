@@ -135,6 +135,9 @@ def run_video(frames, per_frame_people, config, out_mov_path):
     print('writing to %s' % temp_dir)
 
     used_frames = frames[start_fr:end_fr + 1]
+
+    #theta_list = hmr(used_frame)
+
     for i, (frame, proc_param) in enumerate(zip(used_frames, proc_params)):
         if i % 10 == 0:
             print('%d/%d' % (i, len(used_frames)))
@@ -173,8 +176,9 @@ def run_video(frames, per_frame_people, config, out_mov_path):
                 result_here,
                 other_vp,
                 other_vp2,
-                bbox,
+                bbox, 
                 renderer)
+            #add theta_list_rendered
             row1 = np.hstack((frame, skel_frame, np.ones_like(op_frame) * 255))
             row2 = np.hstack((rend_frame, other_vp2[:, :, :3], op_frame))
             final_rend_img = np.vstack((row2, row1)).astype(np.uint8)
