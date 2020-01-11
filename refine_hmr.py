@@ -197,10 +197,10 @@ def run_video(frames, per_frame_people, config, out_mov_path):
 
         out_name = join(temp_dir, 'frame%03d.png' % i)
         imwrite(out_name, final_rend_img)
-
+    output_video_path = out_mov_path.replace(".h5", ".mp4")
     # Write video.
-    cmd = 'ffmpeg_static -y -threads 16  -i %s/frame%%03d.png -profile:v baseline -level 3.0 -c:v libx264 -pix_fmt yuv420p -an -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" %s' % (
-        temp_dir, out_mov_path)
+    cmd = 'ffmpeg -y -threads 16  -i %s/frame%%03d.png -profile:v baseline -level 3.0 -c:v libx264 -pix_fmt yuv420p -an -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" %s' % (
+        temp_dir, output_video_path)
     system(cmd)
     #shutil.rmtree(temp_dir)
 
@@ -273,6 +273,7 @@ if __name__ == '__main__':
     config = get_config()
     
     config.load_path = os.getcwd()+"/hmr/models/model.ckpt-667589"
+    # config.load_path = os.getcwd()+"/hmr/models/hmr_rotaug_May03_1425/model.ckpt-1111959"
 
     if len(config.render_only) > 0:
         RENDONLY = True

@@ -5,10 +5,23 @@ Clone the repository
 git clone https://github.com/ManifoldFR/recvis-project
  ```
 
+
 ## Dependencies
 
 The initial HMR repository uses Python 2.7 and TensorFlow 1.3. We patched HMR to be able to use more recent versions of Python and TensorFlow 1.x (tested on TensorFlow 1.15 and Python 3.7).
 
+We reverse-engineered [motion-reconstruction](https://github.com/akanazawa/motion_reconstruction) to use with AlphaPose (included in the repository) and Python 3 instead of Openpose.
+
+## Use
+
+Put the videos in a directory (by default `data/vid`) and call
+```bash
+python -m run_alphapose
+```
+Then run
+```bash
+python -m refine_hmr.py
+```
 
 ## Bibliography
 
