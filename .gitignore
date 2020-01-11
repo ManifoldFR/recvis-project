@@ -8,6 +8,5 @@
 *.h5
 *.mp4
 AlphaPose/models
-!settings.json
-!settings_sfu.json
+!settings*.json
 anim_files/

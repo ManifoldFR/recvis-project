@@ -2,7 +2,11 @@ from bvhtomimic import BvhConverter
 
 ANIMS_DIR = "anim_files/"
 
-outputPath = "0007_Balance001.json"
+base_name = "backflip_a"
+# base_name = "0007_Balance001"
 
-converter = BvhConverter("settings_sfu.json")
-converter.writeDeepMimicFile(ANIMS_DIR+"0007_Balance001.bvh", outputPath)
+outputPath = "%s.json" % base_name
+
+# converter = BvhConverter("settings_sfu.json")
+converter = BvhConverter("settings_hmrsfv.json")
+converter.writeDeepMimicFile(ANIMS_DIR+"%s.bvh"% base_name, outputPath)

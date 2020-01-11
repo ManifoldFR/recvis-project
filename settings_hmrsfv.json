@@ -35,22 +35,22 @@
     ],
     "jointAssignments": {
         "hip": "Hips",
-        "chest": "Chest",
+        "chest": "Spine",
         "neck": "Neck",
-        "right hip": "RightUpLeg",
-        "right knee": "RightLeg",
+        "right hip": "RightHip",
+        "right knee": "RightKnee",
         "right ankle": "RightFoot",
-        "right shoulder": "RightArm",
-        "right elbow": "RightForeArm",
-        "left hip": "LeftUpLeg",
-        "left knee": "LeftLeg",
+        "right shoulder": "RightShoulder",
+        "right elbow": "RightElbow",
+        "left hip": "LeftHip",
+        "left knee": "LeftKnee",
         "left ankle": "LeftFoot",
-        "left shoulder": "LeftArm",
-        "left elbow": "LeftForeArm"
+        "left shoulder": "LeftShoulder",
+        "left elbow": "LeftElbow"
     },
     "rootRotJoints": {
-        "root rot up": "Spine1",
-        "root rot left": "LeftUpLeg"
+        "root rot up": "Waist",
+        "root rot left": "LeftHip"
     },
     "positionChannelNames": [
         "Xposition",
