@@ -20,7 +20,7 @@ python -m run_alphapose
 ```
 Then run
 ```bash
-python -m refine_hmr.py
+python -m refine_hmr
 ```
 
 ## Bibliography

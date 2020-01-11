@@ -65,7 +65,7 @@ def main(unused_argv, vid_dir='data/vid', out_dir='out'):
         from PIL import Image
         for i in range(len(imgs)):
             im = Image.fromarray(imgs[i])
-            im.save(join(save_vid_path,str(i)+'.jpg'))
+            im.save(join(save_vid_path, '%06d.jpg' % i))
 
         # bbox_path = join(out_dir, vid_name + '_bboxes_tmpwind25.h5')
         bbox_path = join(out_dir, vid_name + '_bboxes.h5')
