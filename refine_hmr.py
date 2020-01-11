@@ -271,8 +271,8 @@ def main(config):
 
 if __name__ == '__main__':
     config = get_config()
-
-    config.load_path = "/home/jules/Documents/recvis-project/hmr/models/model.ckpt-667589"
+    
+    config.load_path = os.getcwd()+"/hmr/models/model.ckpt-667589"
 
     if len(config.render_only) > 0:
         RENDONLY = True

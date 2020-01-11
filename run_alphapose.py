@@ -113,7 +113,7 @@ def clean_detections(all_kps, vid_path, vis=False):
         frames = read_frames(vid_path)
     start_frame, end_frame = -1, -1
     for i, kps in enumerate(all_kps):
-        if i % 50 == 0:
+        if i % 10 == 0:
             print('%d/%d' % (i, len(all_kps)))
         if len(kps) == 0:
             continue
@@ -197,7 +197,7 @@ def clean_detections(all_kps, vid_path, vis=False):
             frame = frames[i]
             ax.imshow(frame)
             ax.set_title('frame %d' % i)
-            for p_id, p_bboxes in persons.iteritems():
+            for p_id, p_bboxes in persons.items():
                 last_time, last_bbox, last_kps = p_bboxes[-1]
                 # If was found in current frame
                 if last_time == i:
@@ -452,10 +452,10 @@ def nonmaxsupp(bboxes0, valid_kps0):
         w = np.maximum(0, xx2 - xx1 + 1)
         h = np.maximum(0, yy2 - yy1 + 1)
         # compute the ratio of overlap
-    overlap = (w * h) / area[idxs[:last]]
+        overlap = (w * h) / area[idxs[:last]]
 
         # delete all indexes from the index list that have
-    idxs = np.delete(idxs, np.concatenate(([last], np.where(overlap > NMS_THR)[0])))
+        idxs = np.delete(idxs, np.concatenate(([last], np.where(overlap > NMS_THR)[0])))
 
     return bboxes0[pick], valid_kps0[pick]
                 
