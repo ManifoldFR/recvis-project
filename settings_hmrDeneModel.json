@@ -34,23 +34,23 @@
         1
     ],
     "jointAssignments": {
-        "hip": "Hips",
-        "chest": "Spine",
-        "neck": "Chest",
-        "right hip": "RightHip",
-        "right knee": "RightKnee",
-        "right ankle": "RightFoot",
-        "right shoulder": "RightInnerShoulder",
-        "right elbow": "RightElbow",
-        "left hip": "LeftHip",
-        "left knee": "LeftKnee",
-        "left ankle": "LeftFoot",
-        "left shoulder": "LeftInnerShoulder",
-        "left elbow": "LeftElbow"
+        "hip": "hips",
+        "chest": "LowerBack",
+        "neck": "neck",
+        "right hip": "thigh.R",
+        "right knee": "shin.R",
+        "right ankle": "foot.R",
+        "right shoulder": "upper_arm.R",
+        "right elbow": "forearm.R",
+        "left hip": "thigh.L",
+        "left knee": "shin.L",
+        "left ankle": "foot.L",
+        "left shoulder": "upper_arm.L",
+        "left elbow": "forearm.L"
     },
     "rootRotJoints": {
-        "root rot up": "Waist",
-        "root rot left": "LeftHip"
+        "root rot up": "spine",
+        "root rot left": "thigh.L"
     },
     "positionChannelNames": [
         "Xposition",
@@ -58,9 +58,9 @@
         "Zposition"
     ],
     "rotationChannelNames": [
-        "Zrotation",
+        "Xrotation",
         "Yrotation",
-        "Xrotation"
+        "Zrotation"
     ],
     "scale": 0.0254,
     "zeroRotationVectors": {

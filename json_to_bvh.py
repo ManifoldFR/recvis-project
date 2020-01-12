@@ -3,16 +3,18 @@ import numpy as np
 import pandas as pd 
 
 def join_csv():
-  path = 'bvh/csv/'                   
-  all_files = glob.glob(os.path.join(path, "*.csv"))
-  all_files.sort(key=lambda x: int(x.split('/')[-1].split('.')[0]))
-  df_from_each_file = (pd.read_csv(f) for f in all_files)
-  concatenated_df   = pd.concat(df_from_each_file, ignore_index=True)
+    path = 'bvh/csv/'                   
+    all_files = glob.glob(os.path.join(path, "*.csv"))
+    all_files.sort(key=lambda x: int(x.split('/')[-1].split('.')[0]))
+    df_from_each_file = (pd.read_csv(f) for f in all_files)
+    concatenated_df   = pd.concat(df_from_each_file, ignore_index=True)
 
-  concatenated_df['frame'] = concatenated_df.index+1
-  concatenated_df.to_csv("bvh/csv_joined.csv", index=False)
+    concatenated_df['frame'] = concatenated_df.index+1
+    concatenated_df.to_csv("bvh/csv_joined.csv", index=False)
 
-with open('/home/jules/Documents/recvis-project/refined/backflip_a.json') as f:
+file_name = 'refined/dance.json'
+
+with open(os.path.join(os.getcwd(), file_name)) as f:
     data = json.load(f)
 
 keys = [int(k) for k in data]
@@ -57,6 +59,7 @@ for k in keys:
     joints_export['hip.Center_y'] = hipCenter.iloc[0][1::3].sum()/2
     joints_export['hip.Center_z'] = hipCenter.iloc[0][2::3].sum()/2
     
+    os.makedirs("bvh/csv/", exist_ok=True)
     joints_export.to_csv("bvh/csv/%06d.jpg.csv" % k)
 
 join_csv()
