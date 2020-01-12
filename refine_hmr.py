@@ -118,6 +118,7 @@ def run_video(frames, per_frame_people, config, out_mov_path):
                 'proc_param': proc_param
             }
             result_dict[i] = [result_here]
+        # Save result in JSON format
         listified_result = {}
         for key in result_dict:
             listified_result[key] = {}

@@ -2,7 +2,11 @@ import numpy as np
 import json 
 from scipy.spatial.transform import Rotation as R
 import tensorflow as tf
-with open('/home/jules/Documents/recvis-project/refined/backflip_a.json') as f:
+import os
+
+file_name = 'backflip_a.json'
+
+with open(os.path.join(os.getcwd(),file_name)) as f:
     data = json.load(f)
 
 keys = [int(k) for k in data]
@@ -109,7 +113,9 @@ root = "Waist"
 # "RightJoints": [3, 4, 5, 6, 7, 8],
 # "LeftJoints": [9, 10, 11, 12, 13, 14],
 
-#time (1), root pos(3), rot orient(4), chest orient(4), neck orient(4), r.hip orient(4), r.knee orient(1), r.ankle(44), r.shoulder orient(4), r.elbow orient(1), l.hip orient(4), l.knee orient (1), l.ankle(4), l.shoulder orient(4), l.elbow orient(1)
+# time (1), root pos(3), rot orient(4), chest orient(4), neck orient(4),
+# r.hip orient(4), r.knee orient(1), r.ankle(44), r.shoulder orient(4), r.elbow orient(1),
+# l.hip orient(4), l.knee orient (1), l.ankle(4), l.shoulder orient(4), l.elbow orient(1)
 
 json_mimic = {
     "Loop": "wrap",
