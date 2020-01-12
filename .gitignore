@@ -10,3 +10,4 @@
 AlphaPose/models
 !settings*.json
 anim_files/
+config.py
