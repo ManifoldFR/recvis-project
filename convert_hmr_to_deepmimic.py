@@ -8,6 +8,9 @@ with open('/home/jules/Documents/recvis-project/refined/backflip_a.json') as f:
 keys = [int(k) for k in data]
 keys = sorted(keys)
 
+def change_camera(camera,point):
+    return (point[:2] + camera[1:]) * camera[0]
+
 def batch_skew(vec, batch_size=None):
     """
     vec is N x 3, batch_size is int
@@ -91,13 +94,13 @@ theta_wanted = [
                 'Right_Hip', 
                 'Right_Knee',
                 'Right_Ankle', 
-                'Right_Shoulder', 
+                'Right_Arm', 
                 'Right_Elbow', 
                 #'Right_Wrist',
                 'Left_Hip',
                 'Left_Knee', 
                 'Left_Ankle', 
-                'Left_Shoulder',
+                'Left_Arm',
                 'Left_Elbow', 
                 #'Left_Wrist', 
             ]
@@ -123,28 +126,40 @@ for k in keys:
 
     all_theta = np.array(data[str(k)]['theta'])[0]
     joints = np.array(data[str(k)]['joints3d'])
-    root_pos = (joints[2] + joints[3]) / 2
-    print(root_pos.shape)
-    l_output += root_pos.tolist()
 
     camera = all_theta[:3]
+    root_pos = -(joints[2] + joints[3]) / 2 + 0.5
+    l_output += root_pos.tolist()
+
     #Angle de vue a changer ?
 
 
     rotation_matrices = tf.Session().run(batch_rodrigues(tf.convert_to_tensor(all_theta[3:72+3].reshape(-1,3),dtype=tf.float32)))
     quater_rot = []
     for k in range(len(rotation_matrices)):
-        r = R.from_matrix(rotation_matrices[k]).as_quat()
+        r = R.from_matrix(rotation_matrices[k])
         quater_rot.append(r)
 
-    l_output += quater_rot[theta_names.index(root)].tolist()
+    r_initial = quater_rot[theta_names.index(root)]
+    l_output += [1.,0.,0.,0.]
+    #l_output += quater_rot[theta_names.index(root)].tolist()
 
     for k in range(len(theta_wanted)):
         if theta_wanted[k] in oneD_theta:
-            oneD_rot = all_theta[3:72+3].reshape(-1,3)[theta_names.index(theta_wanted[k]),-1]
-            l_output.append(oneD_rot)
+            oneD_rot = np.linalg.norm(all_theta[3:72+3].reshape(-1,3)[theta_names.index(theta_wanted[k])])
+            #check here again for the sign
+            l_output.append(-np.sign(all_theta[3:72+3].reshape(-1,3)[theta_names.index(theta_wanted[k])][-1])*oneD_rot)
         else :
-            l_output += quater_rot[theta_names.index(theta_wanted[k])].tolist()
+            rot = quater_rot[theta_names.index(theta_wanted[k])]
+            if theta_wanted[k] == 'Chest':
+                rot = quater_rot[theta_names.index('Upper_Waist')]*rot
+            if theta_wanted[k] == 'Upper_Neck':
+                rot = quater_rot[theta_names.index('Base_Neck')]*rot
+            if theta_wanted[k] == 'Right_Arm':
+                rot = quater_rot[theta_names.index('Right_Shoulder')]*rot
+            if theta_wanted[k] == 'Left_Arm':
+                rot = quater_rot[theta_names.index('Left_Shoulder')]*rot
+            l_output += rot.as_quat().tolist()
     
     json_mimic['Frames'].append(l_output)
 
