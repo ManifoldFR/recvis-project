@@ -13,7 +13,7 @@ from __future__ import division
 from __future__ import print_function
 
 
-import cv2, os, sys
+import cv2, os, sys, json
 from absl import flags
 import numpy as np
 from os.path import exists, join, basename, dirname
@@ -118,7 +118,14 @@ def run_video(frames, per_frame_people, config, out_mov_path):
                 'proc_param': proc_param
             }
             result_dict[i] = [result_here]
-
+        listified_result = {}
+        for key in result_dict:
+            listified_result[key] = {}
+            for key2 in result_dict[key][0]:
+                if key2 == 'proc_param':
+                    continue
+                listified_result[key][key2] = result_dict[key][0][key2].tolist()
+        json.dump(listified_result,open(out_res_path.replace('.h5', '.json'),'w'))
         # Save results & write bvh.
         dd.io.save(out_res_path, result_dict)
         # TODO.
