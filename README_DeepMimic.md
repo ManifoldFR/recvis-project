@@ -6,7 +6,7 @@ Hypothèses: on utilise des environnements conda
 
 J'ai installé tout avec conda dans les environnements où je compile (Eigen, Glut, Glew, pyopengl sont dans les repo conda).
 ```bash
-conda install eigen glut glew pyopengl
+conda install eigen glut glew pyopengl swig
 ```
 
 
@@ -35,27 +35,29 @@ BULLET_INC_DIR = ../../bullet3-2.89/src
 # PYTHON_INC = /usr/include/python3.6m
 PYTHON_INC = $(CONDA_PREFIX)/include/python3.7m
 # PYTHON_LIB = /usr/lib/ -lpython3.6m
-PYTHON_LIB = $(CONDA_PREFIX) -lpython3.7m
+PYTHON_LIB = $(CONDA_PREFIX)/lib -lpython3.7m
 
 INC = -I./ \
 	-I$(EIGEN_DIR) \
 	-I$(BULLET_INC_DIR) \
 	-I$(CONDA_PREFIX)/include
+
+LIBS = -L$(CONDA_PREFIX) -lGLEW -lGL -lGLU -lglut -lBulletDynamics -lBulletCollision -lLinearMath -lm -lstdc++ -Wl,-rpath=/usr/local/lib
 ```
 Pour forcer le linker a regarder les libs conda, j'ai fait
 ```bash
-export LIBRARY_PATH=$CONDA_PREFIX
+export LIBRARY_PATH=$CONDA_PREFIX/lib
 ```
-(aussi possible d'ajouter `-L$(CONDA_PREFIX)` dans la variable LIBS du Makefile).
+(aussi possible d'ajouter `-L$(CONDA_PREFIX)/lib` dans la variable LIBS du Makefile).
 
 ### Linker runtime
 
-Par défaut, le runtime ne regarde pas dans `/usr/local/lib` où Bullet est installé. Pour changer ça, faire
+On a ajouté `-Wl,-rpath=/usr/local/lib` dans les flags passés au compilateur (variable CFLAGS dans le Makefile) pour forcer le runtime à regarder au bon endroit pour Bullet3, dans `/usr/local/lib`. Si ce n'est pas fait il faut faire
 ```bash
 export LD_LIBRARY_PATH=/usr/local/lib
 ```
-Éventuellement on peut aussi ajouter `-Wl,-rpath=/usr/local/lib` dans les flags passés au compilateur (variable CFLAGS dans le Makefile).
+avant de lancer DeepMimic.
 
 ## Autres écueils
 
-**Si le 1er exemple crashe quand on balance des boîtes** Suivre les instrutions du gars et modifier le code: https://github.com/xbpeng/DeepMimic/issues/58#issuecomment-502038564
+**Si le 1er exemple crashe quand on balance des boîtes** Suivre les instructions du gars et modifier le code: https://github.com/xbpeng/DeepMimic/issues/58#issuecomment-502038564
