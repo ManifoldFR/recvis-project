@@ -40,11 +40,11 @@ with open(fullpath, 'r', newline='') as csvfile:
         bpy.data.scenes['Scene'].frame_end = frame_num + 1
         
         for ob, position in zip(empties, coordinates):
-            print(ob)
+            # print(ob)
             ob.location = position
             ob.keyframe_insert(data_path="location", index=-1)
 
-bpy.data.objects['rig'].select = True
+bpy.data.objects['rig'].select_set(state=True)
 
 target_file = 'bvh/estimated_animation.bvh'
 
