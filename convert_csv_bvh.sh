@@ -1,0 +1,1 @@
+blender --background csv_to_bvh.blend -noaudio -P csv_to_bvh.py
