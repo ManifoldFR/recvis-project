@@ -11,3 +11,4 @@ AlphaPose/models
 !settings*.json
 anim_files/
 ./hmr/src/config.py
+bvh/
