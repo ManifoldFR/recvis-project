@@ -4,9 +4,11 @@ from scipy.spatial.transform import Rotation as R
 import tensorflow as tf
 import os
 
-file_name = 'backflip_a.json'
+results_dir = "refined"
+file_name = 'dance.json'
+file_path = os.path.join(os.getcwd(),results_dir,file_name)
 
-with open(os.path.join(os.getcwd(),file_name)) as f:
+with open(file_path) as f:
     data = json.load(f)
 
 keys = [int(k) for k in data]
