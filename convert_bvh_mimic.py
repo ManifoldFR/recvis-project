@@ -10,4 +10,7 @@ outputPath = "%s.json" % base_name
 # converter = BvhConverter("settings_sfu.json")
 # converter = BvhConverter("settings_hmrsfv.json")
 converter = BvhConverter("settings_hmrDeneModel.json")  # using the CSV to BVH approach
-converter.writeDeepMimicFile(ANIMS_DIR+"%s.bvh"% base_name, outputPath)
+bvh_json = converter.convertBvhFile(ANIMS_DIR+"%s.bvh"% base_name, loop=True)
+
+with open(outputPath, "w") as f:
+    f.write(bvh_json)

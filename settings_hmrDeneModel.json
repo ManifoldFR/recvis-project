@@ -62,7 +62,7 @@
         "Yrotation",
         "Zrotation"
     ],
-    "scale": 0.0254,
+    "scale": 1.4,
     "zeroRotationVectors": {
         "seconds": [],
         "hip": [

@@ -12,7 +12,7 @@ def join_csv():
     concatenated_df['frame'] = concatenated_df.index+1
     concatenated_df.to_csv("bvh/csv_joined.csv", index=False)
 
-file_name = 'refined/dance.json'
+file_name = 'refined/hammer.json'
 
 with open(os.path.join(os.getcwd(), file_name)) as f:
     data = json.load(f)
@@ -41,7 +41,7 @@ joints_names = ['Ankle.R_x', 'Ankle.R_y', 'Ankle.R_z',
             'Ear.R_x', 'Ear.R_y', 'Ear.R_z']
 
 for k in keys:
-    print(np.array(data[str(k)]['joints3d']).shape)
+    print("Frame %d: joints3d shape %s" % (k, str(np.array(data[str(k)]['joints3d']).shape)))
     joints_export = pd.DataFrame(np.array(data[str(k)]['joints3d']).reshape(1,57), columns=joints_names)
     joints_export.drop(['Nose_x', 'Nose_y', 'Nose_z', 
             'Eye.L_x', 'Eye.L_y', 'Eye.L_z', 
