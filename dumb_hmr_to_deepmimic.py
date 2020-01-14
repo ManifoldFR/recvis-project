@@ -106,32 +106,36 @@ for s, item in data.items():
     img_size = proc_params['target_size']  # processed image size
     start_pt = proc_params['start_pt']
     inv_proc_scale = 1./np.asarray(proc_params['scale'])
-    principal_pt = np.array([img_size, img_size]) / 2.
-    flength = 500.
-    tz = flength / (0.5 * img_size * cam_scales)
-    trans = np.hstack([cam_transl, tz])
-    final_principal_pt = (principal_pt + start_pt) * inv_proc_scale
-    kp_original = ((joints + 1) * 0.5) * img_size  # in padded image.
-    kp_original = (kp_original + start_pt) * inv_proc_scale  # should be good
+    bbox = proc_params['bbox']  # bbox is obtained from OpenPose: bbox here is (cx, cy, scale, x, y, h, w)
     
-    
-    # bbox is obtained from OpenPose: bbox here is (cx, cy, scale, x, y, h, w)
-    bbox = proc_params['bbox']
     
     pplot = False
     DEBUG_FRAMES = [10, 20, 30, 40]
     if s_int in DEBUG_FRAMES:
         pplot = True
     
+    principal_pt = np.array([img_size, img_size]) / 2.
+    flength = 500.
+    tz = flength / (0.5 * img_size * cam_scales)
+    trans = np.hstack([cam_transl, tz])  # camera translation vector ??
+    final_principal_pt = (principal_pt + start_pt) * inv_proc_scale
+    kp_original = ((joints + 1) * 0.5) * img_size  # in padded image.
+    kp_original = (kp_original + start_pt) * inv_proc_scale  # should be good
+    
     poses_reshaped = poses.reshape(24, 3)
     
     cx, cy = bbox[[0, 1]].astype(int)
-    root_pos = joints3d[3]  # left hip
-    root_pos_2d = joints[3]  # left hip
+    root_pos = .5 * (joints3d[2] + joints3d[3])
+    root_pos_2d = .5 * (joints[2] + joints[3])  # left hip
     root_rot = [1.,0.,0.,0.]
     
+    ## 
+    root_pos += trans
+
     output += root_pos.tolist()
     output += root_rot
+    ### INCORRECT ###
+    
     
     if pplot:
         print("Debugging frame %s" % video_frames[s_int])
@@ -139,7 +143,10 @@ for s, item in data.items():
         ## Lifted from render_original in HMR utils
         plt.figure()
         cv2.circle(frame, (cx, cy), 4, (0,0,200), thickness=10)  # BBOX CENTER
-        SHOW_JT_IDX = [3]  # should be left hip
+        orig_root_kp = .5 * (kp_original[2] + kp_original[3])  # root kp
+        cv2.circle(frame, tuple(orig_root_kp.astype(int)), 3, (0,100,200), thickness=6)  # show the kp
+        
+        SHOW_JT_IDX = []
         for idx in SHOW_JT_IDX:
             orig_kp = kp_original[idx]  # some joint
             cv2.circle(frame, tuple(orig_kp.astype(int)), 3, (0,100,200), thickness=6)  # show the kp
