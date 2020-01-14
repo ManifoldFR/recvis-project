@@ -1,0 +1,20 @@
+joints (2D and 3D?)
+    0: Right ankle
+    1: Right knee
+    2: Right hip
+    3: Left hip
+    4: Left knee
+    5: Left ankle
+    6: Right wrist
+    7: Right elbow
+    8: Right shoulder
+    9: Left shoulder
+    10: Left elbow
+    11: Left wrist
+    12: Neck
+    13: Head top
+    14: nose
+    15: left_eye
+    16: right_eye
+    17: left_ear
+    18: right_ear
