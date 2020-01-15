@@ -119,14 +119,6 @@ def run_video(frames, per_frame_people, config, out_mov_path):
             }
             result_dict[i] = [result_here]
         # Save result in JSON format
-        listified_result = {}
-        for key in result_dict:
-            listified_result[key] = {}
-            for key2 in result_dict[key][0]:
-                if key2 == 'proc_param':
-                    continue
-                listified_result[key][key2] = result_dict[key][0][key2].tolist()
-        json.dump(listified_result,open(out_res_path.replace('.h5', '.json'),'w'), indent=4)
         # Save results & write bvh.
         dd.io.save(out_res_path, result_dict)
         # TODO.

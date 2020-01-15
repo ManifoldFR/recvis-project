@@ -4,6 +4,8 @@ from scipy.spatial.transform import Rotation as R
 import tensorflow as tf
 import os
 
+from process_deepmimic_humanoid import smpl_names_map, smpl_OneD_names
+
 results_dir = "refined"
 file_name = 'dance.json'
 file_path = os.path.join(os.getcwd(),results_dir,file_name)
@@ -68,6 +70,7 @@ def batch_rodrigues(theta, name=None):
             r, batch_size=batch_size)
         return R
 
+# SMPL joint names
 theta_names = [
                 'Left_Hip',
                 'Right_Hip', 
@@ -94,26 +97,13 @@ theta_names = [
                 'Right_Finger'
             ]
 
-theta_wanted = [
-                'Chest',
-                'Upper_Neck', 
-                'Right_Hip', 
-                'Right_Knee',
-                'Right_Ankle', 
-                'Right_Arm', 
-                'Right_Elbow', 
-                #'Right_Wrist',
-                'Left_Hip',
-                'Left_Knee', 
-                'Left_Ankle', 
-                'Left_Arm',
-                'Left_Elbow', 
-                #'Left_Wrist', 
-            ]
+theta_wanted = list(smpl_names_map.keys())
 
-oneD_theta = ['Right_Knee','Right_Elbow','Left_Knee','Left_Elbow']
+## One-dimensional angles
+oneD_theta = smpl_OneD_names
 
-root = "Waist"
+# root = "Waist"
+root = "Left_Hip"
 
 # "RightJoints": [3, 4, 5, 6, 7, 8],
 # "LeftJoints": [9, 10, 11, 12, 13, 14],
@@ -171,7 +161,8 @@ for k in keys:
     
     json_mimic['Frames'].append(l_output)
 
-json.dump(json_mimic,open('deepmimic.txt','w'))
 
 
+json.dump(json_mimic,open('deepmimic.json','w'),
+          indent=4)
 

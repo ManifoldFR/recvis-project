@@ -37,6 +37,13 @@ python -m refine_hmr
 
 Use https://github.com/BartMoyaers/BvhToDeepMimic to convert the BVH files to DeepMimic-formatted files.
 
+We took inspiration from the pybullet example files to retarget the motion (credit to Erwin Coumans and Yihang Yin)
+```
+wget https://raw.githubusercontent.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/inverse_kinematics.py
+wget https://raw.githubusercontent.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/transformation.py
+```
+
+
 ## Bibliography
 
 * SFV: Reinforcement Learning of Physical Skills from Videos, Peng, Kanazawa, Malik, Abbeel and Levine. In ACM Transactions on Graphics (Proc. SIGGRAPH Asia 2018). https://xbpeng.github.io/projects/SFV/2018_TOG_SFV.pdf | [GitHub project page](https://xbpeng.github.io/projects/SFV/index.html) [GitHub code repo](https://github.com/akanazawa/motion_reconstruction)
