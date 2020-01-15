@@ -12,6 +12,20 @@ from transformation import *
 
 from pyquaternion import Quaternion
 
+# joints expected by PB example inverse kinematics
+PB_joint_info = {
+    'joint_name': [
+        'root', 'right_hip', 'right_knee', 'right_ankle', 'left_hip', 'left_knee', 'left_ankle',
+        'chest', 'neck', 'nose', 'eye', 'left_shoulder', 'left_elbow', 'left_wrist',
+        'right_shoulder', 'right_elbow', 'right_wrist'
+    ],
+    'father': [0, 0, 1, 2, 0, 4, 5, 0, 7, 8, 9, 8, 11, 12, 8, 14, 15],
+    'side': [
+        'middle', 'right', 'right', 'right', 'left', 'left', 'left', 'middle', 'middle', 'middle',
+        'middle', 'left', 'left', 'left', 'right', 'right', 'right'
+    ]
+}
+
 
 def get_angle(vec1, vec2):
   cos_theta = np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
@@ -47,23 +61,22 @@ def coord_to_rot(frameNum, frame, frame_duration):
   # duration of frame in seconds (1D),
   tmp[0] = [frame_duration]
   # root position (3D),
-  tmp[1] = frame[0]
+  tmp[1] = frame[0] + [0, 1, 0]
   # root rotation (4D),
-  
-  ## NOTE: SUPPOSED THAT father[0] = 7, father[1] = 7
   root_y = (frame[7] - frame[0])
   root_z = (frame[1] - frame[0])
   root_x = np.cross(root_y, root_z)
 
+  ## basis vectors
   x = np.array([1.0, 0, 0])
   y = np.array([0, 1.0, 0])
   z = np.array([0, 0, 1.0])
 
   rot_qua = get_quaternion(root_x, root_y, root_z, x, y, z)
+  # rot_qua *= [0, 0, 1., 0]
   tmp[2] = list(rot_qua)
 
   # chest rotation (4D),
-  ## NOTE: SUPPOSED THAT father[7] = 8
   chest_y = (frame[8] - frame[7])
   chest_z = (frame[14] - frame[8])
   chest_x = np.cross(chest_y, chest_z)
