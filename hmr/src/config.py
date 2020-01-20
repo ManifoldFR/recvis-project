@@ -109,7 +109,7 @@ flags.DEFINE_float('camera_smooth_weight', 1., 'weight on camera smoothness')
 flags.DEFINE_float('init_pose_loss_weight', 100., 'weight on how much to stick to initial pose')
 
 # Other settings:
-flags.DEFINE_integer('num_refine', 100, 'number of iterations to optimize.')
+flags.DEFINE_integer('num_refine', 400, 'number of iterations to optimize.')
 flags.DEFINE_boolean('use_weighted_init_pose', True, 'weights init_pose_loss according to initial closeness with openpose.. ')
 flags.DEFINE_boolean('refine_inpose', False, 'if true optimizes wrt the pose space as opposed to the latent feature space. ')
 

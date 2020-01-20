@@ -7,10 +7,6 @@ import matplotlib.pyplot as plt
 from hmr.src.util.renderer import draw_bbox
 import cv2
 
-from process_deepmimic_humanoid import smpl_OneD_names, smpl_names_map
-from process_deepmimic_humanoid import smpl_kintree_table
-from process_deepmimic_humanoid import dm_joint_parents_id, dm_name_to_id
-from process_deepmimic_humanoid import dm_joints_info
 
 results_dir = "refined"
 base_name = 'walken-1'
@@ -52,7 +48,6 @@ model_joints_map = [
 theta_wanted = list(smpl_names_map.keys())
 
 ## One-dimensional angles
-oneD_theta = smpl_OneD_names
 
 # "RightJoints": [3, 4, 5, 6, 7, 8],
 # "LeftJoints": [9, 10, 11, 12, 13, 14],
@@ -139,15 +134,15 @@ for s, item in data.items():
     kp_original = ((joints + 1) * 0.5) * img_size  # in padded image.
     kp_original = (kp_original + start_pt) * inv_proc_scale  # should be good
     
+    
     trans[1] *= -1
     trans[2] *= -1
     
-    
+    # joints3d += trans
     cx, cy = bbox[[0, 1]].astype(int)
+    
     root_pos = .5 * (joints3d[2] + joints3d[3])
     root_pos_2d = .5 * (joints[2] + joints[3])  # left hip
-    root_rot = poses_quats[0]
-    
     
     
     DEBUG_FRAMES = [  ]

@@ -12,3 +12,4 @@ AlphaPose/models
 anim_files/
 ./hmr/src/config.py
 bvh/
+hmr/smpl_webuser/
