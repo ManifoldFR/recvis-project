@@ -37,11 +37,9 @@ python -m refine_hmr
 
 Use https://github.com/BartMoyaers/BvhToDeepMimic to convert the BVH files to DeepMimic-formatted files.
 
-We took inspiration from the pybullet example files to retarget the motion (credit to Erwin Coumans and Yihang Yin)
-```
-wget https://raw.githubusercontent.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/inverse_kinematics.py
-wget https://raw.githubusercontent.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/transformation.py
-```
+We repurposed MoCap conversion files from the PyBullet reimplementation of DeepMimic (credit to Erwin Coumans and Yihang Yin), https://github.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/inverse_kinematics.py and
+https://github.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/transformation.py.
+
 
 
 ## Bibliography
