@@ -37,8 +37,12 @@ python -m refine_hmr
 
 Use https://github.com/BartMoyaers/BvhToDeepMimic to convert the BVH files to DeepMimic-formatted files.
 
-We repurposed MoCap conversion files from the PyBullet reimplementation of DeepMimic (credit to Erwin Coumans and Yihang Yin), https://github.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/inverse_kinematics.py and
-https://github.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/transformation.py.
+We repurposed MoCap conversion files from the PyBullet reimplementation of DeepMimic (credit to Erwin Coumans and Yihang Yin), [inverse_kinematics.py](https://github.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/inverse_kinematics.py) and
+[transformation.py](https://github.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/transformation.py).
+We wrote a [wrapper](./ik_hmr_deepmimic.py) for this code that you can modify and call as
+```
+python ik_hmr_deepmimic.py
+```
 
 
 

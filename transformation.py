@@ -1,3 +1,11 @@
+"""
+From PyBullet example files.
+
+https://github.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/transformation.py
+
+TODO: convert to use scipy rotations module instead
+
+"""
 from __future__ import division, print_function
 
 import math

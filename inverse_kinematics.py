@@ -1,5 +1,10 @@
 """
 From PyBullet example files.
+
+Original file: https://github.com/bulletphysics/bullet3/master/examples/pybullet/gym/pybullet_envs/deep_mimic/mocap/inverse_kinematics.py
+
+TODO: convert to use scipy rotations module instead
+
 """
 # coding: utf-8
 

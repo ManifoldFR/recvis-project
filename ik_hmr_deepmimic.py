@@ -1,3 +1,11 @@
+"""
+Wrapper around the PyBullet DeepMimic's MoCap functions
+to convert the motion reconstruction output file to the DeepMimic
+rig JSON.
+
+TODO: use argparse so that user can enter MoCap filename
+
+"""
 import numpy as np 
 import deepdish as dd
 from scipy.spatial.transform import Rotation as R
