@@ -24,6 +24,8 @@ pip install bvhtodeepmimic
 
 ## Use
 
+### Getting MoCap data from a video
+
 Put the videos in a directory (by default `data/vid`) and call
 ```bash
 python -m run_alphapose
@@ -32,6 +34,7 @@ Then run
 ```bash
 python -m refine_hmr
 ```
+The output will be in the `refined` directory.
 
 ### Conversion of motion to DeepMimic JSON format
 
