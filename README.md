@@ -44,6 +44,27 @@ We wrote a [wrapper](./ik_hmr_deepmimic.py) for this code that you can modify an
 python ik_hmr_deepmimic.py
 ```
 
+For information, the HMR output joints are as follow (from a comment inside of the HMR source):
+
+0. Right ankle  
+1. Right knee  
+2. Right hip  
+3. Left hip
+4. Left knee  
+5. Left ankle  
+6. Right wrist
+7. Right elbow
+8. Right shoulder
+9. Left shoulder
+10. Left elbow
+11. Left wrist
+12. Neck
+13. Head top
+14. nose
+15. left_eye
+16. right_eye
+17. left_ear
+18. right_ear
 
 
 ## Bibliography
